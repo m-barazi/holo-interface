@@ -7,8 +7,14 @@
     },
     "dev": { "cache": false, "persistent": true },
     "lint": {},
-    "typecheck": { "dependsOn": ["^build"] },
-    "test": { "dependsOn": ["^build"] },
+    "typecheck": {
+      "dependsOn": ["^typecheck"],
+      "inputs": ["src/**", "tsconfig.json", "tsconfig.build.json", "package.json"]
+    },
+    "test": {
+      "dependsOn": ["^typecheck"],
+      "inputs": ["src/**", "tests/**", "__tests__/**", "vitest.config.*", "package.json"]
+    },
     "test:e2e": { "dependsOn": ["^build"] }
   }
 }

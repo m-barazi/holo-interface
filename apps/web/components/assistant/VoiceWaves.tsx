@@ -1,6 +1,6 @@
 'use client';
 
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { useAssistantStore } from '@/stores/useAssistantStore';
 
 const BARS = 28;
@@ -14,7 +14,7 @@ export function VoiceWaves() {
   return (
     <div className="flex h-16 items-center justify-center gap-1" data-state={state}>
       {Array.from({ length: BARS }).map((_, i) => (
-        <motion.span
+        <m.span
           key={i}
           className="w-1 rounded-full bg-accent-cyan"
           animate={

@@ -1,13 +1,14 @@
-# Holo-Interface — Production (GHCR-Images + Traefik)
-# Für den Hostinger-VPS: Images sind vorgebaut (GitHub Actions → GHCR),
-# der VPS pulled sie nur. Traefik (bestehend) routet via Subdomains + TLS.
+# Holo-Interface — Production (GHCR-Images + Traefik) — Single Source of Truth für VPS
+# Images sind vorgebaut (GitHub Actions → GHCR), der VPS pulled sie nur.
+# Traefik (bestehend, externes `proxy`-Netzwerk) routet via Subdomains + TLS.
 #
 # Voraussetzungen auf dem VPS:
-#   - Docker ist an GHCR angemeldet (ghcr.io/m-barazi/…, wie service-calculator)
+#   - Docker an GHCR angemeldet (ghcr.io/m-barazi/…)
+#   - externes Netzwerk `proxy` existiert (Traefik-Setup)
 #   - DNS: holo.barazi.cloud + holo-api.barazi.cloud → 76.13.2.12
 #
-# Deploy via Hostinger-VPS-Docker (raw compose content) oder:
 #   docker compose -f docker-compose.prod.yml up -d
+#   docker compose -f docker-compose.prod.yml logs -f --tail=50
 
 services:
   server:
@@ -17,8 +18,17 @@ services:
     environment:
       NODE_ENV: production
       PORT: 4000
-      CORS_ORIGIN: https://holo.barazi.cloud
-      LLM_ADAPTER: mock
+      CORS_ORIGIN: ${CORS_ORIGIN:-https://holo.barazi.cloud}
+      LLM_ADAPTER: ${LLM_ADAPTER:-mock}
+    networks:
+      - holo
+      - proxy
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:4000/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.holo-api.rule=Host(`holo-api.barazi.cloud`)"
@@ -32,7 +42,13 @@ services:
     container_name: holo-web
     restart: unless-stopped
     depends_on:
-      - server
+      server:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+    networks:
+      - holo
+      - proxy
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.holo-web.rule=Host(`holo.barazi.cloud`)"
@@ -40,3 +56,9 @@ services:
       - "traefik.http.routers.holo-web.tls=true"
       - "traefik.http.routers.holo-web.tls.certresolver=letsencrypt"
       - "traefik.http.services.holo-web.loadbalancer.server.port=3000"
+
+networks:
+  holo:
+    driver: bridge
+  proxy:
+    external: true

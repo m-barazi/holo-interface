@@ -1,5 +1,5 @@
-# Holo-Interface — Docker Compose (Build aus Source)
-# Wird vom Hostinger-VPS (Docker-Compose-Projekt aus GitHub-Repo) verwendet.
+# Holo-Interface — Docker Compose (Build aus Source) — für lokale/CI-Nutzung.
+# Fürs VPS-Deploy stattdessen docker-compose.prod.yml (GHCR-Images + proxy) verwenden.
 #
 # Vor dem Start eine .env alongside dieser Datei anlegen (siehe .env.example),
 # zumindest NEXT_PUBLIC_SOCKET_URL / NEXT_PUBLIC_API_URL auf die öffentliche

@@ -1,4 +1,4 @@
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import type { ReactNode } from 'react';
 
 export function FloatingPanel({
@@ -11,7 +11,7 @@ export function FloatingPanel({
   title?: string;
 }) {
   return (
-    <motion.div
+    <m.div
       drag
       dragMomentum={false}
       initial={{ opacity: 0, y: 8 }}
@@ -28,6 +28,6 @@ export function FloatingPanel({
         )}
       </div>
       {children}
-    </motion.div>
+    </m.div>
   );
 }

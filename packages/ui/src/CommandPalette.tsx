@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 
 export interface CommandItem {
   id: string;
@@ -18,14 +18,14 @@ export function CommandPalette({
   return (
     <AnimatePresence>
       {open && (
-        <motion.div
+        <m.div
           className="fixed inset-0 z-50 flex items-start justify-center pt-32"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
           <div className="absolute inset-0 bg-black/40" onClick={onClose} />
-          <motion.div
+          <m.div
             role="palette"
             className="relative w-full max-w-xl rounded-lg border border-white/10 bg-elev-2/90 backdrop-blur-glass-strong p-2"
             initial={{ y: -8 }}
@@ -46,8 +46,8 @@ export function CommandPalette({
             {items.length === 0 && (
               <div className="px-3 py-2 text-sm text-txt-muted">Keine Befehle</div>
             )}
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

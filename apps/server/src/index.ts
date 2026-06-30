@@ -11,6 +11,7 @@ import { settingsRouter } from './rest/settings.js';
 import { logsRouter } from './rest/logs.js';
 import { analyticsRouter } from './rest/analytics.js';
 import { ApiError, errorHandler } from './rest/error.js';
+import { registerShutdown } from './shutdown.js';
 
 export interface RunningServer {
   http: http.Server;
@@ -51,12 +52,16 @@ export async function createServer(opts: { port: number; corsOrigin: string }): 
     http: httpServer,
     io,
     port: actualPort,
-    close: () => new Promise((resolve) => httpServer.close(() => resolve())),
+    close: async () => {
+      io.close();
+      await new Promise<void>((resolve) => httpServer.close(() => resolve()));
+    },
   };
 }
 
 if (process.env.NODE_ENV !== 'test') {
   const port = Number(process.env.PORT ?? 4000);
-  createServer({ port, corsOrigin: process.env.CORS_ORIGIN ?? 'http://localhost:3000' });
+  const server = await createServer({ port, corsOrigin: process.env.CORS_ORIGIN ?? 'http://localhost:3000' });
   console.log(`[server] listening on :${port}`);
+  registerShutdown(server);
 }

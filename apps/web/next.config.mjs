@@ -6,11 +6,18 @@ const withNextIntl = createNextIntlPlugin('./app/i18n/request.ts');
 const nextConfig = {
   output: 'standalone',
   reactStrictMode: true,
-  // ESLint während des Builds deaktiviert: die Root-.eslintrc.cjs (für node-seitige
-  // Workspace-Packages gedacht) extendiert nur eslint:recommended ohne TS-/JSX-Parser
-  // und würde next build auf allen .tsx-Dateien abbrechen. Linting läuft separat via pnpm lint.
-  eslint: { ignoreDuringBuilds: true },
+  // Linting läuft während next build (Web-ESLint-Config: apps/web/.eslintrc.cjs).
   transpilePackages: ['@holo/ui', '@holo/tokens', '@holo/shared', '@holo/three-avatar'],
+  experimental: {
+    // Granulares Tree-Shaking für Icon-/Komponenten-Libs → kleinerer dynamischer Chunk.
+    optimizePackageImports: [
+      'lucide-react',
+      'framer-motion',
+      '@radix-ui/react-slider',
+      '@radix-ui/react-tabs',
+      '@react-three/drei',
+    ],
+  },
 };
 
 export default withNextIntl(nextConfig);

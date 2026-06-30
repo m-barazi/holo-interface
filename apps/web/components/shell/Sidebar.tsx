@@ -2,7 +2,7 @@
 
 import { Link, usePathname } from '@/app/i18n/navigation';
 import { useTranslations } from 'next-intl';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { ChevronLeft, Plus } from 'lucide-react';
 import { NAV_ITEMS } from './NavItems';
 import { useUIStore } from '@/stores/useUIStore';
@@ -45,7 +45,7 @@ export function Sidebar() {
               }`}
             >
               {active && (
-                <motion.span
+                <m.span
                   layoutId="nav-active"
                   className="absolute left-0 top-1/2 h-6 w-1 -translate-y-1/2 rounded-full bg-accent-cyan shadow-[0_0_12px_rgba(34,211,238,0.8)]"
                 />
