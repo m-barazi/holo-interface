@@ -1,4 +1,4 @@
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 
 export interface Toast {
   id: string;
@@ -11,7 +11,7 @@ export function Toaster({ toasts }: { toasts: Toast[] }) {
     <div className="fixed bottom-4 right-4 z-50 flex flex-col gap-2">
       <AnimatePresence>
         {toasts.map((t) => (
-          <motion.div
+          <m.div
             key={t.id}
             className={`rounded-md px-4 py-2 text-sm text-white ${
               t.tone === 'error' ? 'bg-state-error/80' : 'bg-accent-blue/80'
@@ -21,7 +21,7 @@ export function Toaster({ toasts }: { toasts: Toast[] }) {
             exit={{ y: 20, opacity: 0 }}
           >
             {t.message}
-          </motion.div>
+          </m.div>
         ))}
       </AnimatePresence>
     </div>

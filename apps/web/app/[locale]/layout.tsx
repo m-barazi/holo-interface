@@ -5,6 +5,7 @@ import { notFound } from 'next/navigation';
 import { routing } from '../i18n/routing';
 import { ThemeProvider } from '@/providers/ThemeProvider';
 import { SocketProvider } from '@/providers/SocketProvider';
+import { MotionProvider } from '@/providers/MotionProvider';
 import '../globals.css';
 
 export function generateStaticParams() {
@@ -25,9 +26,11 @@ export default async function LocaleLayout({
 
   return (
     <NextIntlClientProvider locale={locale} messages={messages}>
-      <ThemeProvider>
-        <SocketProvider>{children}</SocketProvider>
-      </ThemeProvider>
+      <MotionProvider>
+        <ThemeProvider>
+          <SocketProvider>{children}</SocketProvider>
+        </ThemeProvider>
+      </MotionProvider>
     </NextIntlClientProvider>
   );
 }
