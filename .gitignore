@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Build outputs
+dist/
+build/
+.next/
+out/
+.turbo/
+coverage/
+*.tsbuildinfo
+
+# Env / secrets
+.env
+.env.local
+.env.*.local
+!.env.example
+
+# Editor / OS
+.DS_Store
+.idea/
+.vscode/*
+!.vscode/settings.json
+*.log
+npm-debug.log*
+pnpm-debug.log*
+
+# Testing / tooling
+playwright-report/
+test-results/
+storybook-static/
+
+# Docker runtime
+*.pid
