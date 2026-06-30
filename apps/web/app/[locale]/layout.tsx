@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import { routing } from '../i18n/routing';
 import { ThemeProvider } from '@/providers/ThemeProvider';
 import { SocketProvider } from '@/providers/SocketProvider';
-import './globals.css';
+import '../globals.css';
 
 export function generateStaticParams() {
   return routing.locales.map((locale) => ({ locale }));
