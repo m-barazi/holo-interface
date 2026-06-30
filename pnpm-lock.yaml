@@ -21,6 +21,15 @@ importers:
         specifier: ^5.4.0
         version: 5.9.3
 
+  packages/shared:
+    devDependencies:
+      typescript:
+        specifier: ^5.4.0
+        version: 5.9.3
+      vitest:
+        specifier: ^1.6.0
+        version: 1.6.1
+
   packages/tokens:
     devDependencies:
       tailwindcss:
