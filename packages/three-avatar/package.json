@@ -1,0 +1,29 @@
+{
+  "name": "@holo/three-avatar",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./src/index.ts",
+  "types": "./src/index.ts",
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@react-three/fiber": "^8.16.8",
+    "@react-three/drei": "^9.109.0",
+    "three": "^0.166.0",
+    "framer-motion": "^11.3.0",
+    "@holo/shared": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0"
+  },
+  "devDependencies": {
+    "typescript": "^5.4.0",
+    "@types/three": "^0.166.0",
+    "@types/react": "^18.3.0",
+    "vitest": "^1.6.0"
+  }
+}

@@ -26,7 +26,8 @@
     "three": "^0.166.0",
     "@holo/ui": "workspace:*",
     "@holo/tokens": "workspace:*",
-    "@holo/shared": "workspace:*"
+    "@holo/shared": "workspace:*",
+    "@holo/three-avatar": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.4.0",
