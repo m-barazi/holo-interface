@@ -1,0 +1,28 @@
+# Abhängigkeiten & Build-Artefakte
+node_modules/
+.pnpm-store/
+**/dist/
+**/build/
+**/.next/
+**/out/
+**/.turbo/
+coverage/
+**/*.tsbuildinfo
+
+# Umgebungen & Secrets
+.env
+.env.*
+!.env.example
+
+# Editor / OS / CI
+.git/
+.gitignore
+.github/
+.vscode/
+.idea/
+.DS_Store
+*.log
+npm-debug.log*
+docs/superpowers/
+README.md
+LICENSE

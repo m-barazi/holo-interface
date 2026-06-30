@@ -1,0 +1,57 @@
+# Holo-Interface — Docker Compose (Build aus Source)
+# Wird vom Hostinger-VPS (Docker-Compose-Projekt aus GitHub-Repo) verwendet.
+#
+# Vor dem Start eine .env alongside dieser Datei anlegen (siehe .env.example),
+# zumindest NEXT_PUBLIC_SOCKET_URL / NEXT_PUBLIC_API_URL auf die öffentliche
+# Server-URL setzen, damit der Browser Socket.IO erreichen kann.
+#
+#   cp .env.example .env   # Werte anpassen
+#   docker compose up -d --build
+
+services:
+  server:
+    build:
+      context: .
+      dockerfile: apps/server/Dockerfile
+    image: holo-interface/server:latest
+    container_name: holo-server
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      CORS_ORIGIN: ${CORS_ORIGIN:-http://localhost:3000}
+      LLM_ADAPTER: ${LLM_ADAPTER:-mock}
+    ports:
+      - "4000:4000"
+    networks:
+      - holo
+    healthcheck:
+      test: ["CMD", "wget", "-qO-", "http://localhost:4000/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 15s
+
+  web:
+    build:
+      context: .
+      dockerfile: apps/web/Dockerfile
+      args:
+        NEXT_PUBLIC_SOCKET_URL: ${NEXT_PUBLIC_SOCKET_URL:-http://localhost:4000}
+        NEXT_PUBLIC_API_URL: ${NEXT_PUBLIC_API_URL:-http://localhost:4000}
+    image: holo-interface/web:latest
+    container_name: holo-web
+    restart: unless-stopped
+    depends_on:
+      server:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+    ports:
+      - "3000:3000"
+    networks:
+      - holo
+
+networks:
+  holo:
+    driver: bridge

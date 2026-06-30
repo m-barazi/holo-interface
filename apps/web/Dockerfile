@@ -1,0 +1,43 @@
+# syntax=docker/dockerfile:1
+# Holo-Interface — Frontend (Next.js standalone)
+# Multi-Stage: deps → builder → runner
+
+FROM node:20-alpine AS deps
+WORKDIR /app
+RUN corepack enable && corepack prepare pnpm@8.15.0 --activate
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+COPY apps/web/package.json apps/web/
+COPY packages/tokens/package.json packages/tokens/
+COPY packages/shared/package.json packages/shared/
+COPY packages/ui/package.json packages/ui/
+COPY packages/three-avatar/package.json packages/three-avatar/
+RUN pnpm install --frozen-lockfile
+
+FROM node:20-alpine AS builder
+WORKDIR /app
+RUN corepack enable && corepack prepare pnpm@8.15.0 --activate
+COPY --from=deps /app/node_modules ./node_modules
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+COPY apps/web ./apps/web
+COPY packages ./packages
+# Browser-seitige Endpunkte (werden ins Client-Bundle gebaut)
+ARG NEXT_PUBLIC_SOCKET_URL=http://localhost:4000
+ARG NEXT_PUBLIC_API_URL=http://localhost:4000
+ENV NEXT_PUBLIC_SOCKET_URL=$NEXT_PUBLIC_SOCKET_URL
+ENV NEXT_PUBLIC_API_URL=$NEXT_PUBLIC_API_URL
+RUN pnpm --filter @holo/shared build
+RUN pnpm --filter @holo/web build
+
+FROM node:20-alpine AS runner
+WORKDIR /app
+ENV NODE_ENV=production
+RUN addgroup -g 1001 -S nodejs && adduser -S nextjs -u 1001
+# Next.js standalone-Output
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/standalone ./
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/.next/static ./apps/web/.next/static
+COPY --from=builder --chown=nextjs:nodejs /app/apps/web/public ./apps/web/public
+USER nextjs
+EXPOSE 3000
+ENV PORT=3000
+ENV HOSTNAME=0.0.0.0
+CMD ["node", "apps/web/server.js"]

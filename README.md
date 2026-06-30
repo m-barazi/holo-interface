@@ -12,23 +12,38 @@ Futuristisches, glas-morphisches Steuerzentrum für einen holografischen KI-Assi
 └──────────────────────────────────────────────────────┘
 ```
 
-## Quickstart (Lokal)
+## Quickstart (Docker — primärer Pfad)
+
+Das System läuft **in Docker**, lokal wird kein Dev-Server benötigt. Der Build
+erfolgt vollständig in den Multi-Stage-Dockerfiles.
+
+```bash
+cp .env.example .env          # Werte anpassen (insb. NEXT_PUBLIC_* und CORS_ORIGIN)
+docker compose up -d --build   # web → :3000  ·  server → :4000
+```
+
+- Healthchecks: `GET http://localhost:4000/healthz` (`{"status":"ok"}`).
+- Die Browser-Endpunkte `NEXT_PUBLIC_SOCKET_URL` / `NEXT_PUBLIC_API_URL` müssen
+  auf die **öffentliche** Server-URL zeigen, damit der Client Socket.IO erreicht
+  (z. B. `http://barazi.cloud:4000`).
+
+### Deploy auf Hostinger-VPS
+
+1. Repo nach GitHub pushen (Branch `main`).
+2. Auf dem VPS (Docker installiert) das Repo als Docker-Compose-Projekt anlegen
+   — der Hostinger-VPS-Dienst zieht `docker-compose.yaml` aus dem `main`-Branch
+   und baut/startet beide Container.
+3. `.env` auf dem VPS mit den öffentlichen URLs befüllen.
+
+> Optional: Reverse-Proxy (Caddy/Traefik) vor `:3000`/`:4000` für TLS setzen.
+
+## Quickstart (Lokal, nur Entwicklung)
 
 ```bash
 pnpm install
 cp .env.example .env
 pnpm dev        # web → http://localhost:3000  ·  server → :4000
 ```
-
-## Docker
-
-```bash
-cp .env.example .env
-docker compose up --build     # web → :3000  ·  server → :4000
-```
-
-- Healthchecks: `GET http://localhost:4000/healthz` (`{"status":"ok"}`), `GET http://localhost:3000/api/health`.
-- Reverse-Proxy-Profil (Caddy/Traefik + TLS) ist in `docker-compose.yml` als auskommentiertes Produktions-Profil hinterlegt.
 
 ## Struktur
 
