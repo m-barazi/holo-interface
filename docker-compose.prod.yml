@@ -1,0 +1,42 @@
+# Holo-Interface — Production (GHCR-Images + Traefik)
+# Für den Hostinger-VPS: Images sind vorgebaut (GitHub Actions → GHCR),
+# der VPS pulled sie nur. Traefik (bestehend) routet via Subdomains + TLS.
+#
+# Voraussetzungen auf dem VPS:
+#   - Docker ist an GHCR angemeldet (ghcr.io/m-barazi/…, wie service-calculator)
+#   - DNS: holo.barazi.cloud + holo-api.barazi.cloud → 76.13.2.12
+#
+# Deploy via Hostinger-VPS-Docker (raw compose content) oder:
+#   docker compose -f docker-compose.prod.yml up -d
+
+services:
+  server:
+    image: ghcr.io/m-barazi/holo-interface-server:latest
+    container_name: holo-server
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      PORT: 4000
+      CORS_ORIGIN: https://holo.barazi.cloud
+      LLM_ADAPTER: mock
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.holo-api.rule=Host(`holo-api.barazi.cloud`)"
+      - "traefik.http.routers.holo-api.entrypoints=websecure"
+      - "traefik.http.routers.holo-api.tls=true"
+      - "traefik.http.routers.holo-api.tls.certresolver=letsencrypt"
+      - "traefik.http.services.holo-api.loadbalancer.server.port=4000"
+
+  web:
+    image: ghcr.io/m-barazi/holo-interface-web:latest
+    container_name: holo-web
+    restart: unless-stopped
+    depends_on:
+      - server
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.holo-web.rule=Host(`holo.barazi.cloud`)"
+      - "traefik.http.routers.holo-web.entrypoints=websecure"
+      - "traefik.http.routers.holo-web.tls=true"
+      - "traefik.http.routers.holo-web.tls.certresolver=letsencrypt"
+      - "traefik.http.services.holo-web.loadbalancer.server.port=3000"
