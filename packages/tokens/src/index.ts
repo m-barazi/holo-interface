@@ -4,3 +4,4 @@ export * from './radius';
 export * from './motion';
 export * from './glass';
 export * from './typography';
+export * from './tailwind-preset';

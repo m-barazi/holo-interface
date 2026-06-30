@@ -1,0 +1,69 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-base: #070a12;
+  --bg-elev-1: #0c1220;
+  --bg-elev-2: #121a2e;
+  --txt-primary: #e6edf7;
+  --txt-secondary: #94a3b8;
+}
+
+:root[data-theme='light'] {
+  --bg-base: #f4f7fb;
+  --bg-elev-1: #ffffff;
+  --bg-elev-2: #eaeff7;
+  --txt-primary: #0c1220;
+  --txt-secondary: #475569;
+}
+
+html,
+body {
+  background: var(--bg-base);
+  color: var(--txt-primary);
+  font-family: Inter, system-ui, sans-serif;
+  min-height: 100vh;
+}
+
+* {
+  border-color: rgba(255, 255, 255, 0.08);
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(1rem);
+  -webkit-backdrop-filter: blur(1rem);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.glass-strong {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(1.5rem);
+  -webkit-backdrop-filter: blur(1.5rem);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+:root[data-theme='light'] .glass,
+:root[data-theme='light'] .glass-strong {
+  background: rgba(12, 18, 32, 0.04);
+  border-color: rgba(12, 18, 32, 0.1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}

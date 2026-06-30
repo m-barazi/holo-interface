@@ -1,0 +1,59 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "assistant": "AI Assistant",
+    "chat": "Chat",
+    "voice": "Voice Control",
+    "hologram": "Hologram",
+    "devices": "Devices",
+    "automation": "Automations",
+    "knowledge": "Knowledge Base",
+    "analytics": "Analytics",
+    "logs": "Logs",
+    "settings": "Settings"
+  },
+  "shell": {
+    "search": "Search…",
+    "palette": "Command Palette",
+    "quickActions": "Quick Actions",
+    "notifications": "Notifications",
+    "profile": "Profile",
+    "darkMode": "Dark Mode",
+    "lightMode": "Light Mode",
+    "language": "Language",
+    "assistantSwitcher": "Assistants",
+    "newAssistant": "New Assistant",
+    "dock": "Status Dock",
+    "collapse": "Collapse",
+    "expand": "Expand"
+  },
+  "status": {
+    "online": "Online",
+    "offline": "Offline",
+    "listening": "Listening",
+    "thinking": "Thinking",
+    "answering": "Answering",
+    "error": "Error"
+  },
+  "assistant": {
+    "title": "AI Assistant",
+    "textChat": "Text",
+    "voiceChat": "Voice",
+    "mic": "Microphone",
+    "camera": "Camera",
+    "wakeWord": "Wake Word",
+    "waves": "Voice Waves",
+    "placeholder": "Type a message…",
+    "send": "Send",
+    "pushToTalk": "Hold spacebar to talk",
+    "mute": "Mute",
+    "stop": "Stop",
+    "scene": "Scene",
+    "model": "Model"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Holo-Interface — Control Center",
+    "comingSoon": "Expanded in a follow-up cycle."
+  }
+}

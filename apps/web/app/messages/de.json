@@ -1,0 +1,59 @@
+{
+  "nav": {
+    "dashboard": "Dashboard",
+    "assistant": "KI-Assistent",
+    "chat": "Chat",
+    "voice": "Sprachsteuerung",
+    "hologram": "Hologramm",
+    "devices": "Geräte",
+    "automation": "Automationen",
+    "knowledge": "Wissensdatenbank",
+    "analytics": "Analytics",
+    "logs": "Logs",
+    "settings": "Einstellungen"
+  },
+  "shell": {
+    "search": "Suche…",
+    "palette": "Befehlspalette",
+    "quickActions": "Schnellaktionen",
+    "notifications": "Benachrichtigungen",
+    "profile": "Profil",
+    "darkMode": "Dunkelmodus",
+    "lightMode": "Hellmodus",
+    "language": "Sprache",
+    "assistantSwitcher": "Assistenten",
+    "newAssistant": "Neuer Assistent",
+    "dock": "Status-Dock",
+    "collapse": "Einklappen",
+    "expand": "Ausklappen"
+  },
+  "status": {
+    "online": "Online",
+    "offline": "Offline",
+    "listening": "Zuhören",
+    "thinking": "Denken",
+    "answering": "Antworten",
+    "error": "Fehler"
+  },
+  "assistant": {
+    "title": "KI-Assistent",
+    "textChat": "Text",
+    "voiceChat": "Sprache",
+    "mic": "Mikrofon",
+    "camera": "Kamera",
+    "wakeWord": "Wake Word",
+    "waves": "Sprachwellen",
+    "placeholder": "Nachricht eingeben…",
+    "send": "Senden",
+    "pushToTalk": "Leertaste gedrückt halten zum Sprechen",
+    "mute": "Stumm",
+    "stop": "Stopp",
+    "scene": "Szene",
+    "model": "Modell"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "welcome": "Holo-Interface — Steuerzentrale",
+    "comingSoon": "Wird in einem Folgezyklus ausgebaut."
+  }
+}
