@@ -16,15 +16,13 @@ FROM node:20-alpine AS runner
 WORKDIR /app
 ENV NODE_ENV=production
 RUN corepack enable && corepack prepare pnpm@8.15.0 --activate
-# Alle Workspace-package.json + Lockfile, damit --frozen-lockfile matcht.
+# Server importiert nur @holo/shared (siehe apps/server/package.json deps).
+# tokens/ui/three-avatar sind Web-seitig und werden vom Server nicht benötigt —
+# weglassen verkleinert das Image und beschleunigt den VPS-Pull.
 COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
 COPY apps/server/package.json apps/server/
-COPY apps/web/package.json apps/web/
-COPY packages/tokens/package.json packages/tokens/
 COPY packages/shared/package.json packages/shared/
-COPY packages/ui/package.json packages/ui/
-COPY packages/three-avatar/package.json packages/three-avatar/
-RUN pnpm install --prod --frozen-lockfile
+RUN pnpm install --prod --frozen-lockfile --filter @holo/server... --filter @holo/shared
 # Kompilierte Artefakte
 COPY --from=builder /app/apps/server/dist ./apps/server/dist
 COPY --from=builder /app/packages/shared/dist ./packages/shared/dist
