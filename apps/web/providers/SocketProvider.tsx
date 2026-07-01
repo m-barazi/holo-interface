@@ -5,6 +5,7 @@ import { useSocketStore } from '@/stores/useSocketStore';
 import { useTelemetryStore } from '@/stores/useTelemetryStore';
 import { useAssistantStore } from '@/stores/useAssistantStore';
 import { useAvatarStore } from '@/stores/useAvatarStore';
+import { resolveSocketUrl } from '@/lib/resolveSocketUrl';
 import type { AssistantState, AvatarCommand } from '@holo/shared';
 
 export function SocketProvider({ children }: { children: ReactNode }) {
@@ -12,7 +13,7 @@ export function SocketProvider({ children }: { children: ReactNode }) {
   const disconnect = useSocketStore((s) => s.disconnect);
 
   useEffect(() => {
-    const url = process.env.NEXT_PUBLIC_SOCKET_URL ?? 'http://localhost:4000';
+    const url = resolveSocketUrl(process.env.NEXT_PUBLIC_SOCKET_URL);
     const socket = init(url);
 
     const updateTelemetry = useTelemetryStore.getState().update;
